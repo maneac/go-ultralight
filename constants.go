@@ -1,28 +1,7 @@
 package ultralight
 
-/******************************************************************************
- * WindowFlags
- *****************************************************************************/
-
-// WindowFlag .
-type WindowFlag int
-
-//WindowFlags
-const (
-	WindowBorderless  WindowFlag = 1 << 0
-	WindowTitled                 = 1 << 1
-	WindowResizable              = 1 << 2
-	WindowMaximizable            = 1 << 3
-)
-
-/******************************************************************************
- * MessageSource
- *****************************************************************************/
-
-// MessageSource .
 type MessageSource int
 
-// MessageSources
 const (
 	XML MessageSource = iota
 	JS
@@ -37,14 +16,8 @@ const (
 	Other
 )
 
-/******************************************************************************
- * MessageLevel
- *****************************************************************************/
-
-// MessageLevel .
 type MessageLevel int
 
-// MessageLevels
 const (
 	Log MessageLevel = iota + 1
 	Warning
@@ -53,14 +26,8 @@ const (
 	Info
 )
 
-/******************************************************************************
- * Cursor
- *****************************************************************************/
-
-// Cursor .
 type Cursor int
 
-// Cursors
 const (
 	Pointer Cursor = iota
 	Cross
@@ -108,52 +75,61 @@ const (
 	Custom
 )
 
-/******************************************************************************
- * BitmapFormat
- *****************************************************************************/
-
-// BitmapFormat .
 type BitmapFormat int
 
-// BitmapFormats
 const (
 	A8 BitmapFormat = iota
 	RGBA8
 )
 
-/******************************************************************************
- * KeyEventType
- *****************************************************************************/
-const (
-	KeyDown = iota
-	KeyUp
-	RawKeyDown
-	Char
-)
+// // KeyEventType .
+// type KeyEventType int
 
-/******************************************************************************
- * MouseEventType
- *****************************************************************************/
-const (
-	MouseMoved = iota
-	MouseDown
-	MouseUp
-)
+// // KeyEventTypes
+// const (
+// 	KeyDown KeyEventType = iota
+// 	KeyUp
+// 	RawKeyDown
+// 	Char
+// )
 
-/******************************************************************************
- * MouseButton
- *****************************************************************************/
-const (
-	MouseButtonNone = iota
-	Left
-	Middle
-	Right
-)
+// // MouseEventType .
+// type MouseEventType int
 
-/******************************************************************************
- * ScrollEventType
- *****************************************************************************/
+// // MouseEventTypes
+// const (
+// 	MouseMoved MouseEventType = iota
+// 	MouseDown
+// 	MouseUp
+// )
+
+// // MouseButton .
+// type MouseButton int
+
+// // MouseButtons
+// const (
+// 	MouseButtonNone MouseButton = iota
+// 	Left
+// 	Middle
+// 	Right
+// )
+
+// // ScrollEventType .
+// type ScrollEventType int
+
+// // ScrollEventTypes
+// const (
+// 	ScrollByPixel ScrollEventType = iota
+// 	ScrollByPage
+// )
+
+// WindowFlag enumerates the window features in a bitwise-OR ('|') friendly manner
+type WindowFlag int
+
+// Feature flags for the Window instance
 const (
-	ScrollByPixel = iota
-	ScrollByPage
+	WindowBorderless	WindowFlag = 1 << 0
+	WindowTitled		WindowFlag = 1 << 1
+	WindowResizable		WindowFlag = 1 << 2
+	WindowMaximizable	WindowFlag = 1 << 3
 )

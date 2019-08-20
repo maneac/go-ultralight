@@ -8,45 +8,37 @@ package ultralight
 // #include "ultralight.c"
 import "C"
 import (
-	"io"
-	"log"
-	"os"
-	"path/filepath"
-	"runtime"
+	"strings"
 )
+
+/******************************************************************************
+ * Strings
+ *****************************************************************************/
 
 func ulStrToStr(str C.ULString) string {
 	cstring := C.strconv(str)
 	return C.GoString(cstring)
 }
 
-func Init() {
-	create()
+/******************************************************************************
+ * JavaScript
+ *****************************************************************************/
+
+var funcMap map[C.JSObjectRef]viewFunc
+
+type viewFunc struct {
+	v *View
+	f JSBindFunc
 }
 
-func create() {
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		log.Fatal(err)
+//export objFunctionCallback
+func objFunctionCallback(ctx C.JSContextRef, function C.JSObjectRef, _ C.JSObjectRef,
+	argCt C.size_t, parameters *C.JSValueRef, _ *C.JSValueRef) C.JSValueRef {
+	args := strings.Split(C.GoString(C.printParams(ctx, parameters, argCt)), "\t\t\t")
+	if len(args) == 1 && args[0] == "" {
+		args = []string{}
 	}
-	_, fp, _, _ := runtime.Caller(0)
-	pkg, err := filepath.Abs(filepath.Join(filepath.Dir(fp), "SDK", "bin"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	directory, _ := os.Open(pkg)
-	objects, _ := directory.Readdir(-1)
-	for _, obj := range objects {
-		if filepath.Ext(obj.Name()) == ".dll" {
-			src, _ := os.Open(filepath.Join(pkg, obj.Name()))
-			defer src.Close()
-			dst, _ := os.Create(filepath.Join(dir, obj.Name()))
-			defer dst.Close()
-			_, _ = io.Copy(dst, src)
-		}
-	}
-}
-
-func init() {
-	create()
+	vf := funcMap[function]
+	vf.f(vf.v, args)
+	return nil
 }

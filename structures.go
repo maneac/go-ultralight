@@ -8,64 +8,46 @@ package ultralight
 // #include "ultralight.c"
 import "C"
 
-// JSBindFunc .
+// JSBindFunc defines the structure of JavaScript callback functions, where
+// 'params' is an array of the parameters passed to the JavaScript function
 type JSBindFunc func(view *View, params []string)
 
-// FuncMap .
-var FuncMap = make(map[C.JSObjectRef]ViewFunc)
-
-// ViewFunc .
-type ViewFunc struct {
-	v *View
-	f JSBindFunc
-}
-
-// Config .
 type Config struct {
 	c C.ULConfig
 }
 
-// Renderer .
 type Renderer struct {
 	r C.ULRenderer
 }
 
-// View .
 type View struct {
 	v C.ULView
 }
 
-// Bitmap .
 type Bitmap struct {
 	b C.ULBitmap
 }
 
-// JSContext .
 type JSContext struct {
 	jc C.JSContextRef
 }
 
-// JSValue .
 type JSValue struct {
 	jv C.JSValueRef
 }
 
-// App .
 type App struct {
 	a C.ULApp
 }
 
-// Window .
 type Window struct {
 	w C.ULWindow
 }
 
-// Monitor .
 type Monitor struct {
 	m C.ULMonitor
 }
 
-// Overlay .
 type Overlay struct {
 	o C.ULOverlay
 }

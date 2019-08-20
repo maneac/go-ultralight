@@ -13,15 +13,15 @@ import (
 )
 
 var appUpdate func()
-var viewChangeTitle = make(map[C.ULView]func(string))
-var viewChangeURL = make(map[C.ULView]func(string))
-var viewChangeTooltip = make(map[C.ULView]func(string))
-var viewChangeCursor = make(map[C.ULView]func(Cursor))
-var viewAddConsoleMessage = make(map[C.ULView]func(MessageSource, MessageLevel, string, uint, uint, string))
-var viewBeginLoading = make(map[C.ULView]func())
-var viewFinishLoading = make(map[C.ULView]func())
-var viewUpdateHistory = make(map[C.ULView]func())
-var viewDOMReady = make(map[C.ULView]func())
+var viewChangeTitle map[C.ULView]func(string)
+var viewChangeURL map[C.ULView]func(string)
+var viewChangeTooltip map[C.ULView]func(string)
+var viewChangeCursor map[C.ULView]func(Cursor)
+var viewAddConsoleMessage map[C.ULView]func(MessageSource, MessageLevel, string, uint, uint, string)
+var viewBeginLoading map[C.ULView]func()
+var viewFinishLoading map[C.ULView]func()
+var viewUpdateHistory map[C.ULView]func()
+var viewDOMReady map[C.ULView]func()
 var winClose func()
 var winResize func(int, int)
 
@@ -29,7 +29,7 @@ var winResize func(int, int)
  * App
  *****************************************************************************/
 
-// SetUpdateCallback .
+// SetUpdateCallback executes the specified function whenever the App updates
 func (a *App) SetUpdateCallback(callFunc func()) {
 	appUpdate = callFunc
 	C.setAppUpdateCallback(a.a)
@@ -46,8 +46,9 @@ func appUpdateFunction(_ unsafe.Pointer) {
  * View
  *****************************************************************************/
 
-// SetChangeTitleCallback .
-func (view *View) SetChangeTitleCallback(callFunc func(string)) {
+// SetChangeTitleCallback executes the specified function when the page title
+// changes
+func (view *View) SetChangeTitleCallback(callFunc func(title string)) {
 	viewChangeTitle[view.v] = callFunc
 	C.setViewChangeTitleCallback(view.v)
 }
@@ -59,8 +60,9 @@ func viewChangeTitleFunction(_ unsafe.Pointer, v C.ULView, title C.ULString) {
 	}
 }
 
-// SetChangeURLCallback .
-func (view *View) SetChangeURLCallback(callFunc func(string)) {
+// SetChangeURLCallback executes the specified function when the page URL
+// changes
+func (view *View) SetChangeURLCallback(callFunc func(url string)) {
 	viewChangeURL[view.v] = callFunc
 	C.setViewChangeURLCallback(view.v)
 }
@@ -72,8 +74,9 @@ func viewChangeURLFunction(_ unsafe.Pointer, v C.ULView, url C.ULString) {
 	}
 }
 
-// SetChangeTooltipCallback .
-func (view *View) SetChangeTooltipCallback(callFunc func(string)) {
+// SetChangeTooltipCallback executes the specified function when the tooltip
+// changes (usually due to a mouse hover)
+func (view *View) SetChangeTooltipCallback(callFunc func(tooltip string)) {
 	viewChangeTooltip[view.v] = callFunc
 	C.setViewChangeTooltipCallback(view.v)
 }
@@ -85,8 +88,9 @@ func viewChangeTooltipFunction(_ unsafe.Pointer, v C.ULView, tooltip C.ULString)
 	}
 }
 
-// SetChangeCursorCallback .
-func (view *View) SetChangeCursorCallback(callFunc func(Cursor)) {
+// SetChangeCursorCallback executes the specified function when the mouse cursor
+// changes
+func (view *View) SetChangeCursorCallback(callFunc func(cursor Cursor)) {
 	viewChangeCursor[view.v] = callFunc
 	C.setViewChangeCursorCallback(view.v)
 }
@@ -98,8 +102,10 @@ func viewChangeCursorFunction(_ unsafe.Pointer, v C.ULView, cursor C.ULCursor) {
 	}
 }
 
-// SetAddConsoleMessageCallback .
-func (view *View) SetAddConsoleMessageCallback(callFunc func(MessageSource, MessageLevel, string, uint, uint, string)) {
+// SetAddConsoleMessageCallback executes the specified function when a message is
+// added to the console
+func (view *View) SetAddConsoleMessageCallback(callFunc func(
+	source MessageSource, level MessageLevel, message string, lineNumber uint, colNumber uint, sourceID string)) {
 	viewAddConsoleMessage[view.v] = callFunc
 	C.setViewAddConsoleMessageCallback(view.v)
 }
@@ -113,7 +119,8 @@ func viewAddConsoleMessageFunction(_ unsafe.Pointer, v C.ULView, source C.ULMess
 	}
 }
 
-// SetBeginLoadingCallback .
+// SetBeginLoadingCallback executes the specified function when the page
+// begins loading a new URL
 func (view *View) SetBeginLoadingCallback(callFunc func()) {
 	viewBeginLoading[view.v] = callFunc
 	C.setViewBeginLoadingCallback(view.v)
@@ -126,7 +133,8 @@ func viewBeginLoadingFunction(_ unsafe.Pointer, v C.ULView) {
 	}
 }
 
-// SetFinishLoadingCallback .
+// SetFinishLoadingCallback executes the specified function when the page
+// finished loading a URL
 func (view *View) SetFinishLoadingCallback(callFunc func()) {
 	viewFinishLoading[view.v] = callFunc
 	C.setViewFinishLoadingCallback(view.v)
@@ -139,7 +147,8 @@ func viewFinishLoadingFunction(_ unsafe.Pointer, v C.ULView) {
 	}
 }
 
-// SetUpdateHistoryCallback .
+// SetUpdateHistoryCallback executes the specified function when the
+// history (back/forward state) is modified
 func (view *View) SetUpdateHistoryCallback(callFunc func()) {
 	viewUpdateHistory[view.v] = callFunc
 	C.setViewUpdateHistoryCallback(view.v)
@@ -152,7 +161,8 @@ func viewUpdateHistoryFunction(_ unsafe.Pointer, v C.ULView) {
 	}
 }
 
-// SetDOMReadyCallback .
+// SetDOMReadyCallback executes the specified function when all
+// JavaScript has been parsed and the document is ready
 func (view *View) SetDOMReadyCallback(callFunc func()) {
 	viewDOMReady[view.v] = callFunc
 	C.setViewDOMReadyCallback(view.v)
@@ -169,7 +179,7 @@ func viewDOMReadyFunction(_ unsafe.Pointer, v C.ULView) {
  * Window
  *****************************************************************************/
 
-// SetCloseCallback .
+// SetCloseCallback executes the specified function when the Window closes
 func (win *Window) SetCloseCallback(callFunc func()) {
 	winClose = callFunc
 	C.setWinCloseCallback(win.w)
@@ -182,8 +192,9 @@ func winCloseFunction(_ unsafe.Pointer) {
 	}
 }
 
-// SetResizeCallback .
-func (win *Window) SetResizeCallback(callFunc func(int, int)) {
+// SetResizeCallback executes the specified function when the Window is
+// resized
+func (win *Window) SetResizeCallback(callFunc func(width int, height int)) {
 	winResize = callFunc
 	C.setWinResizeCallback(win.w)
 }
@@ -193,13 +204,4 @@ func winResizeFunction(_ unsafe.Pointer, width, height C.int) {
 	if winResize != nil {
 		winResize(int(width), int(height))
 	}
-}
-
-//export objFunctionCallback
-func objFunctionCallback(ctx C.JSContextRef, function C.JSObjectRef, _ C.JSObjectRef,
-	argCt C.size_t, parameters *C.JSValueRef, _ *C.JSValueRef) C.JSValueRef {
-	args := strings.Split(C.GoString(C.printParams(ctx, parameters, argCt)), "\t\t\t")
-	vf := FuncMap[function]
-	vf.f(vf.v, args)
-	return nil
 }
