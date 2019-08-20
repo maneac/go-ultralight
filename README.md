@@ -30,12 +30,12 @@ You must have a working CGo installation and have the GOPATH set.
 3. Locate your installation of Go-Ultralight (typically in $GOPATH/src/github.com/maneac/go-ultralight or $GOPATH/pkg/mod/github.com/maneac/go-ultralight), and extract the Ultralight SDK into an 'SDK' folder inside. Example structure:
 
    ```
-   github.com
-     |-maneac
-       |-go-ultralight
-         |-go-ultralight
-         |-examples
-         |-SDK
+  github.com
+    |-maneac
+      |-go-ultralight
+        |-go-ultralight
+        |-examples
+        |-SDK
        	  |-bin
        	    |-linux
        	      |-libAppCore.so
@@ -73,10 +73,6 @@ After installation, use the setup utility `go-ultralight` , or follow step 4 of 
 Please build your project with `go build` instead of using `go run`, as run has been known to cause issues with the Browser example.
 
 For examples, please see the 'examples' directory, which contains Go implementations of the sample projects provided with the Ultralight SDK.
-
-# Known Issues
-
-+ Untested on MacOS
 
 # To Do
 

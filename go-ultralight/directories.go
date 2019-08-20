@@ -23,7 +23,11 @@ func isVendor(dir string) bool {
 }
 
 func getSrcDir(isModule bool) string {
-	srcDir, err := filepath.Abs(os.Getenv("GOPATH"))
+	gopath := os.Getenv("GOPATH")
+	if gopath == "" {
+		log.Fatalf("GOPATH not set!")
+	}
+	srcDir, err := filepath.Abs(gopath)
 	if err != nil {
 		log.Fatalf("Failed to get GOPATH: %v", err)
 	}
@@ -43,7 +47,7 @@ func getSrcDir(isModule bool) string {
 	}
 
 	if _, err := os.Stat(srcDir); os.IsNotExist(err) {
-		log.Fatalf("go-ultralight not found!")
+		log.Fatalf("Package go-ultralight not found in %s!", srcDir)
 	}
 	return srcDir
 }

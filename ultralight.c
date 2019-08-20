@@ -34,7 +34,7 @@ char * printParams(JSContextRef ctx, JSValueRef *params, size_t count) {
 				sprintf(output + strlen(output), "%s", delimeter);
 			}
 		} else {
-			printf("Not a string, have %s\n", (JSType)JSValueGetType(ctx, *params));
+			printf("Not a string, have %d\n", (JSType)JSValueGetType(ctx, *params));
 		}
 	}
 	char * out = malloc(destLen * sizeof(char));
