@@ -1,4 +1,4 @@
-[![Report](https://goreportcard.com/badge/github.com/maneac/go-ultralight)](https://goreportcard.com/report/github.com/maneac/go-ultralight)
+[![Go Report Card](https://goreportcard.com/badge/github.com/maneac/go-ultralight)](https://goreportcard.com/report/github.com/maneac/go-ultralight)
 [![GoDoc](http://godoc.org/github.com/maneac/go-ultralight?status.svg)](http://godoc.org/github.com/maneac/go-ultralight)
 
 ### Please read the installation instructions below
