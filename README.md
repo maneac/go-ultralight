@@ -1,4 +1,4 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/maneac/go-ultralight)](https://goreportcard.com/report/github.com/maneac/go-ultralight)
+[![Go Report Card](https://goreportcard.com/badge/github.com/maneac/go-ultralight?badge.svg)](https://goreportcard.com/report/github.com/maneac/go-ultralight)
 [![GoDoc](http://godoc.org/github.com/maneac/go-ultralight?status.svg)](http://godoc.org/github.com/maneac/go-ultralight)
 
 ### Please read the installation instructions below
@@ -15,43 +15,45 @@ Ultralight (https://ultralig.ht) is a HTML UI library, written in C++, that prov
 
 You must have a working CGo installation and have the GOPATH set.
 
-## Automated - RECOMMENDED
+## All Methods
 
 1. Run:<br/><br/> `go get github.com/maneac/go-ultralight/go-ultralight` <br/><br/>to download the project and the installation and setup utility.
+
+## Automated - RECOMMENDED
+
 2. Navigate to your project's directory and execute:<br/><br/>`go-ultralight [OPTIONS]`<br/><br/>to automatically download the Ultralight SDK, and copy the necessary binaries for running your application. For more information on the available options, please read the utility's help (`go-ultralight --help`).
 3. That's it! Now you're ready to Go-Ultralight!
 
 ## Manual
 
-1. Run:<br><br>`go get github.com/maneac/go-ultralight/...`<br><br>to fetch the repository.
-
 2. Download the Ultralight SDK for your system from https://ultralig.ht.
 
 3. Locate your installation of Go-Ultralight (typically in $GOPATH/src/github.com/maneac/go-ultralight or $GOPATH/pkg/mod/github.com/maneac/go-ultralight), and extract the Ultralight SDK into an 'SDK' folder inside. Example structure:
 
-   ```
-  github.com
-    |-maneac
-      |-go-ultralight
+    ```
+    github.com
+      |-maneac
         |-go-ultralight
-        |-examples
-        |-SDK
-       	  |-bin
-       	    |-linux
-       	      |-libAppCore.so
-       	      |-libUltralight.so
-       	      ...
-             |-windows
-               |-x64
-                 |-AppCore.dll
-                 ...
-               |-x86
-                 |-AppCore.dll
-                 ...
-           |-deps
-       	  |-include
-       	  ...
-   ```
+          |-go-ultralight
+          |-examples
+          |-SDK
+       	|-bin
+       	  |-linux
+       	    |-libAppCore.so
+       	    |-libUltralight.so
+                ... 
+              |-windows
+                |-x64
+                  |-AppCore.dll
+                  ...
+                |-x86
+                  |-AppCore.dll
+                  ...
+            |-deps
+            |-include
+            ...
+    ```
+
 4. Copy the binary files (*.dylib, *.dll, *.so) for your target system type from the 'SDK/bin' folder into your project directory. Example project directory:
    ```
    exampleProject
