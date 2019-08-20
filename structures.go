@@ -8,7 +8,6 @@ package ultralight
 // #include <ultralight.h>
 import "C"
 
-
 // JSBindFunc defines the structure of JavaScript callback functions, where
 // 'params' is an array of the parameters passed to the JavaScript function
 type JSBindFunc func(view *View, params []string)

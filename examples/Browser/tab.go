@@ -4,12 +4,9 @@ import (
 	"github.com/maneac/go-ultralight"
 )
 
-const inspectorHeight = 300
-
 type tab struct {
 	ui                              *ui
 	overlay                         *ultralight.Overlay
-	inspectorOverlay                *ultralight.Overlay
 	id                              uint
 	isReadyToClose                  bool
 	containerWidth, containerHeight int
@@ -61,45 +58,13 @@ func (t *tab) view() *ultralight.View {
 func (t *tab) show() {
 	t.overlay.Show()
 	t.overlay.Focus()
-	if t.inspectorOverlay != nil {
-		t.inspectorOverlay.Show()
-	}
 }
 
 func (t *tab) hide() {
 	t.overlay.Hide()
 	t.overlay.Unfocus()
-	if t.inspectorOverlay != nil {
-		t.inspectorOverlay.Hide()
-	}
-}
-
-func (t *tab) toggleInspector() {
-	// if t.inspectorOverlay == nil {
-	// 	overlay := t.ui.window.CreateOverlay(t.overlay.GetView().Inspector(), 0, 0)
-	// } else {
-	// 	if t.inspectorOverlay.IsHidden() {
-	// 		t.inspectorOverlay.Show()
-	// 	} else {
-	// 		t.inspectorOverlay.Hide()
-	// 	}
-	// }
-	// t.resize(t.containerWidth, t.containerHeight)
 }
 
 func (t *tab) resize(width, height int) {
-	t.containerWidth = width
-	t.containerHeight = height
-	contentHeight := t.containerHeight
-	if t.inspectorOverlay != nil && !t.inspectorOverlay.IsHidden() {
-		t.inspectorOverlay.Resize(width, height)
-		contentHeight -= inspectorHeight
-	}
-	if contentHeight < 1 {
-		contentHeight = 1
-	}
-	t.overlay.Resize(t.containerWidth, t.containerHeight)
-	if t.inspectorOverlay != nil && !t.inspectorOverlay.IsHidden() {
-		t.inspectorOverlay.MoveTo(0, t.overlay.GetY()+int(t.overlay.GetHeight()))
-	}
+	t.overlay.Resize(width, height)
 }

@@ -128,8 +128,8 @@ type WindowFlag int
 
 // Feature flags for the Window instance
 const (
-	WindowBorderless	WindowFlag = 1 << 0
-	WindowTitled		WindowFlag = 1 << 1
-	WindowResizable		WindowFlag = 1 << 2
-	WindowMaximizable	WindowFlag = 1 << 3
+	WindowBorderless  WindowFlag = 1 << 0
+	WindowTitled      WindowFlag = 1 << 1
+	WindowResizable   WindowFlag = 1 << 2
+	WindowMaximizable WindowFlag = 1 << 3
 )

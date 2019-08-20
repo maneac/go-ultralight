@@ -7,7 +7,7 @@ import "github.com/maneac/go-ultralight"
 // MyApp handles the overlay logic for a window
 type MyApp struct {
 	overlay *ultralight.Overlay
-} 
+}
 
 func createMyApp(window *ultralight.Window) {
 	myApp := &MyApp{}
@@ -40,15 +40,15 @@ func main() {
 	config := ultralight.CreateConfig()
 	app := config.CreateApp()
 
-	// Create a Window 
+	// Create a Window
 	window := ultralight.CreateWindow(app.GetMainMonitor(), 300, 300, false, ultralight.WindowTitled)
-	
+
 	// Set the title of the Window
 	window.SetTitle("Tutorial 4 - JavaScript")
 
 	// Bind the Window to the App instance
 	app.SetWindow(window)
-	
+
 	// Creates a MyApp instance to handle the Overlays and JavaScript
 	// NOTE: this structure is unnecessary with these bindings
 	createMyApp(window)
