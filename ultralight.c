@@ -1,25 +1,6 @@
-#include <Ultralight/CAPI.h>
-#include <AppCore/CAPI.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <ultralight.h>
 
-extern void appUpdateFunction(void*);
-extern void viewChangeTitleFunction(void*, ULView, ULString);
-extern void viewChangeURLFunction(void*, ULView, ULString);
-extern void viewChangeTooltipFunction(void*, ULView, ULString);
-extern void viewChangeCursorFunction(void*, ULView, ULCursor);
-extern void viewAddConsoleMessageFunction(void*, ULView, ULMessageSource, ULMessageLevel, ULString, unsigned int, unsigned int, ULString);
-extern void viewBeginLoadingFunction(void*, ULView);
-extern void viewFinishLoadingFunction(void*, ULView);
-extern void viewUpdateHistoryFunction(void*, ULView);
-extern void viewDOMReadyFunction(void*, ULView);
-extern void winCloseFunction(void*);
-extern void winResizeFunction(void*, int, int);
-extern JSValueRef objFunctionCallback(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject,
-                                      size_t argumentCount, JSValueRef *arguments, JSValueRef* exception);
-
-static inline char * printParams(JSContextRef ctx, JSValueRef *params, size_t count) {
+char * printParams(JSContextRef ctx, JSValueRef *params, size_t count) {
 	if (count == 0) {
 		return "";
 	}
@@ -63,55 +44,55 @@ static inline char * printParams(JSContextRef ctx, JSValueRef *params, size_t co
 	return out;
 }
 
-static inline void setAppUpdateCallback(ULApp app) {
+void setAppUpdateCallback(ULApp app) {
 	ulAppSetUpdateCallback(app, appUpdateFunction, NULL);
 }
 
-static inline void setViewChangeTitleCallback(ULView view) {
+void setViewChangeTitleCallback(ULView view) {
 	ulViewSetChangeTitleCallback(view, viewChangeTitleFunction, NULL);
 }
 
-static inline void setViewChangeURLCallback(ULView view) {
+void setViewChangeURLCallback(ULView view) {
 	ulViewSetChangeURLCallback(view, viewChangeURLFunction, NULL);
 }
 
-static inline void setViewChangeTooltipCallback(ULView view) {
+void setViewChangeTooltipCallback(ULView view) {
 	ulViewSetChangeTooltipCallback(view, viewChangeTooltipFunction, NULL);
 }
 
-static inline void setViewChangeCursorCallback(ULView view) {
+void setViewChangeCursorCallback(ULView view) {
 	ulViewSetChangeCursorCallback(view, viewChangeCursorFunction, NULL);
 }
 
-static inline void setViewAddConsoleMessageCallback(ULView view) {
+void setViewAddConsoleMessageCallback(ULView view) {
 	ulViewSetAddConsoleMessageCallback(view, viewAddConsoleMessageFunction, NULL);
 }
 
-static inline void setViewBeginLoadingCallback(ULView view) {
+void setViewBeginLoadingCallback(ULView view) {
 	ulViewSetBeginLoadingCallback(view, viewBeginLoadingFunction, NULL);
 }
 
-static inline void setViewFinishLoadingCallback(ULView view) {
+void setViewFinishLoadingCallback(ULView view) {
 	ulViewSetFinishLoadingCallback(view, viewFinishLoadingFunction, NULL);
 }
 
-static inline void setViewUpdateHistoryCallback(ULView view) {
+void setViewUpdateHistoryCallback(ULView view) {
 	ulViewSetUpdateHistoryCallback(view, viewUpdateHistoryFunction, NULL);
 }
 
-static inline void setViewDOMReadyCallback(ULView view) {
+void setViewDOMReadyCallback(ULView view) {
 	ulViewSetDOMReadyCallback(view, viewDOMReadyFunction, NULL);
 }
 
-static inline void setWinCloseCallback(ULWindow win) {
+void setWinCloseCallback(ULWindow win) {
 	ulWindowSetCloseCallback(win, winCloseFunction, NULL);
 }
 
-static inline void setWinResizeCallback(ULWindow win) {
+void setWinResizeCallback(ULWindow win) {
 	ulWindowSetResizeCallback(win, winResizeFunction, NULL);
 }
 
-static inline char * strconv(ULString str) {
+char * strconv(ULString str) {
 	if (ulStringGetLength(str) == 0) {
 		return "";
 	}
@@ -133,7 +114,7 @@ static inline char * strconv(ULString str) {
 	return num;
 }
 
-static inline char * evaluateScript(ULView view, ULString script) {
+char * evaluateScript(ULView view, ULString script) {
 	const JSStringRef values = JSValueToStringCopy(ulViewGetJSContext(view), ulViewEvaluateScript(view, script), NULL);
 	int length = (JSStringGetLength(values)+1);
 	char value[length];
@@ -146,7 +127,7 @@ static inline char * evaluateScript(ULView view, ULString script) {
 	return out;
 }
 
-static inline JSObjectRef bindScript(ULView view, char* name) {
+JSObjectRef bindScript(ULView view, char* name) {
 	JSContextRef ctx = ulViewGetJSContext(view);
 	JSObjectRef func = JSObjectMakeFunctionWithCallback(ctx, NULL, (JSObjectCallAsFunctionCallback)objFunctionCallback);
 	JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), JSStringCreateWithUTF8CString(name), func, 0, NULL);
