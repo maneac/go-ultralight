@@ -15,7 +15,7 @@ Ultralight (https://ultralig.ht) is a HTML UI library, written in C++, that prov
 
 You must have a working CGo installation and have the GOPATH set.
 
-## Automated - RECOMMENDED
+## Automated - RECOMMENDED (Windows only)
 
 1. Run:<br/><br/> `go get github.com/maneac/go-ultralight/go-ultralight` <br/><br/>to download the project and the installation and setup utility.
 2. Navigate to your project's directory and execute:<br/><br/>`go-ultralight [OPTIONS]`<br/><br/>to automatically download the Ultralight SDK, and copy the necessary binaries for running your application. For more information on the available options, please read the utility's help (`go-ultralight --help`).
@@ -23,7 +23,7 @@ You must have a working CGo installation and have the GOPATH set.
 
 ## Manual
 
-1. Run:<br><br>`go get github.com/maneac/go-ultralight`<br><br>to fetch the repository.
+1. Run:<br><br>`go get github.com/maneac/go-ultralight/...`<br><br>to fetch the repository.
 
 2. Download the Ultralight SDK for your system from https://ultralig.ht.
 
@@ -70,7 +70,7 @@ For examples, please see the 'examples' directory, which contains Go implementat
 
 # Known Issues
 
-+ Automatic fetching of the SDK files on Linux may produce a certificate error.
++ Automatic fetching of the SDK files on non-Windows devices currently produces a X509 certificate error. Please install the SDK manually for these systems in the meantime.
 + Untested on MacOS
 
 # To Do
