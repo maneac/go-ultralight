@@ -5,28 +5,13 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"strings"
 	"path/filepath"
+	"strings"
 )
 
-func installSDK(srcDir, destDir string, copyBinaryFiles bool) {
-	srcDir = filepath.Join(srcDir, "SDK")
-	sdkDir := filepath.Join(destDir, "SDK")
-	if copyAll {
-		copySDK("", "", srcDir, sdkDir)
-	} else {
-		copySDK(goos, goarch, srcDir, sdkDir)
-	}
-	if copyBinaryFiles {
-		copyBinaries(goos, goarch, srcDir, destDir)
-	}
-}
-
 func copySDK(goos, goarch, srcDir, destDir string) {
-	if strings.Contains(destDir, filepath.Join("vendor","github.com")) {
+	if strings.Contains(destDir, filepath.Join("vendor", "github.com")) {
 		fmt.Println("Copying SDK to vendor folder...")
-	} else {
-		fmt.Println("Copying SDK to project...")
 	}
 	var pathStub string
 	switch goos {
