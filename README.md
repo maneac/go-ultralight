@@ -41,14 +41,14 @@ You must have a working CGo installation and have the GOPATH set.
        	      |-libAppCore.so
        	      |-libUltralight.so
        	      ...
-            |-windows
-              |-x64
-                |-AppCore.dll
-                ...
-              |-x86
-                |-AppCore.dll
-                ...
-       	  |-deps
+             |-windows
+               |-x64
+                 |-AppCore.dll
+                 ...
+               |-x86
+                 |-AppCore.dll
+                 ...
+           |-deps
        	  |-include
        	  ...
    ```
