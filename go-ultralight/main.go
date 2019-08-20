@@ -43,7 +43,11 @@ func main() {
 	}
 
 	if isVendor(curDir) {
-		copySDK(srcDir, filepath.Join(curDir, "vendor", "github.com", "maneac", "go-ultralight", "SDK"))
+		if copyAll {
+			copySDK("", "", srcDir, filepath.Join(curDir, "vendor", "github.com", "maneac", "go-ultralight", "SDK"))
+		} else {
+			copySDK(goos, goarch, srcDir, filepath.Join(curDir, "vendor", "github.com", "maneac", "go-ultralight", "SDK"))
+		}
 	}
 
 	if !download {
