@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"io"
 	"log"
@@ -36,9 +37,27 @@ func downloadSDK(goos, srcDir string) {
 		case "darwin":
 			url = "https://ultralig.ht/ultralight-sdk-1.0-mac-v2.zip"
 		}
-		resp, err := http.Get(url)
-		if err != nil {
-			log.Fatalf("Failed to get SDK: %v", err)
+
+		var resp *http.Response
+		var err error
+		if goos == "windows" {
+			resp, err = http.Get(url)
+			if err != nil {
+				log.Fatalf("Failed to get SDK: %v", err)
+			}
+		} else {
+			config := &tls.Config{InsecureSkipVerify: true}
+			tr := &http.Transport{TLSClientConfig: config}
+			client := http.Client{Transport: tr}
+
+			req, err := http.NewRequest(http.MethodGet, url, nil)
+			if err != nil {
+				log.Fatalf("Failed to get SDK: %v", err)
+			}
+			resp, err = client.Do(req)
+			if err != nil {
+				log.Fatalf("Failed to get SDK: %v", err)
+			}
 		}
 
 		fmt.Printf("Downloading %s Ultralight SDK...\n", goos)
