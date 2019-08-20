@@ -29,7 +29,8 @@ You must have a working CGo installation and have the GOPATH set.
 
 3. Locate your installation of Go-Ultralight (typically in $GOPATH/src/github.com/maneac/go-ultralight or $GOPATH/pkg/mod/github.com/maneac/go-ultralight), and extract the Ultralight SDK into an 'SDK' folder inside. Example structure:
 
-   `github.com
+   ```
+   github.com
      |-maneac
        |-go-ultralight
          |-go-ultralight
@@ -49,17 +50,17 @@ You must have a working CGo installation and have the GOPATH set.
                 ...
        	  |-deps
        	  |-include
-       	  ...`
-   
+       	  ...
+   ```
 4. Copy the binary files (*.dylib, *.dll, *.so) for your target system type from the 'SDK/bin' folder into your project directory. Example project directory:
-
-   `exampleProject
+   ```
+   exampleProject
      |-AppCore.dll
      |-main.go
      |-Ultralight.dll
      |-UltralightCore.dll
-     |-WebCore.dll`
-
+     |-WebCore.dll
+   ```
 # Use
 
 After installation, use the setup utility `go-ultralight` , or follow step 4 of the manual installation to copy the necessary binary files to your project directory. These files are required to run the compiled program.
