@@ -1,7 +1,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/maneac/go-ultralight?badge.svg)](https://goreportcard.com/report/github.com/maneac/go-ultralight)
 [![GoDoc](http://godoc.org/github.com/maneac/go-ultralight?status.svg)](http://godoc.org/github.com/maneac/go-ultralight)
 [![Build Status](https://travis-ci.org/maneac/go-ultralight.svg?branch=master)](https://travis-ci.org/maneac/go-ultralight)
-[![codecov](https://codecov.io/gh/maneac/go-ultralight/branch/dev/graph/badge.svg)](https://codecov.io/gh/maneac/go-ultralight)
+[![codecov](https://codecov.io/gh/maneac/go-ultralight/branch/master/graph/badge.svg)](https://codecov.io/gh/maneac/go-ultralight)
 
 ### Please read the installation instructions below
 
