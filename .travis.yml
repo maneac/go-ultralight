@@ -1,0 +1,17 @@
+dist: bionic
+language: go
+
+go:
+  - master
+
+before_install:
+  - go get github.com/maneac/go-ultralight/go-ultralight
+
+install: true
+
+script:
+  - go-ultralight
+  - go test -v -race -coverprofile=coverage.txt -covermode=atomic .
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

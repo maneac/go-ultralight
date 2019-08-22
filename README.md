@@ -1,5 +1,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/maneac/go-ultralight?badge.svg)](https://goreportcard.com/report/github.com/maneac/go-ultralight)
 [![GoDoc](http://godoc.org/github.com/maneac/go-ultralight?status.svg)](http://godoc.org/github.com/maneac/go-ultralight)
+[![Build Status](https://travis-ci.org/maneac/go-ultralight.svg?branch=master)](https://travis-ci.org/maneac/go-ultralight)
+[![codecov](https://codecov.io/gh/maneac/go-ultralight/branch/master/graph/badge.svg)](https://codecov.io/gh/maneac/go-ultralight)
 
 ### Please read the installation instructions below
 
@@ -8,6 +10,15 @@ Go-Ultralight provides unofficial bindings for the Ultralight UI library, endeav
 #### What is Ultralight?
 
 Ultralight (https://ultralig.ht) is a HTML UI library, written in C++, that provides a performant and lightweight alternative to Electron, with JavaScript support.
+
+#### Licensing
+
+While this wrapper is open-source, the Ultralight project is not. Use of the binaries downloaded
+either manually or using the tool must be in accordance with their licensing terms. From their website:<br>
+> Ultralight is free for non-commercial use, educational use, and also free for commercial use by
+> small indie developers making less than US$100,000 a year. You can find full terms in the SDK. 
+> Pricing plans for larger commercial projects will be announced later. For more information, 
+> email us (at adam@ultralig.ht).
 
 # Installation
 
