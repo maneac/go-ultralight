@@ -44,7 +44,9 @@ func createUI(window *ultralight.Window) *ui {
 		}
 	})
 
-	view.SetDOMReadyCallback(bindCallbacks(&u, view))
+	view.SetDOMReadyCallback(func() {
+		bindCallbacks(&u, view)
+	})
 
 	view.LoadURL("file://assets/ui.html")
 
@@ -74,12 +76,6 @@ func bindCallbacks(u *ui, view *ultralight.View) {
 		t := u.activeTab()
 		if t != nil {
 			t.view().Stop()
-		}
-	})
-	view.BindJSCallback("OnToggleTools", func(v *ultralight.View, params []string) {
-		t := u.activeTab()
-		if t != nil {
-			t.toggleInspector()
 		}
 	})
 	view.BindJSCallback("OnRequestNewTab", func(v *ultralight.View, params []string) {

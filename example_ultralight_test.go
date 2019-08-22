@@ -1,8 +1,7 @@
-package ultralight
+package ultralight_test
 
 import (
 	"fmt"
-
 	"github.com/maneac/go-ultralight"
 )
 
@@ -36,14 +35,15 @@ func ExampleView_BindJSCallback() {
 		isReady = true
 	})
 
-	// Give the View something to load
+	// Give the View something to load to trigger the above function
 	view.LoadHTML("<html></html>")
 
 	// Update the View until the DOM is ready
 	for !isReady {
 		renderer.Update()
 	}
-	//Output:
+
+	// Will output:
 	// Hello John!
 	// Hello Anita!
 	// Hello mystery person!

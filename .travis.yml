@@ -6,9 +6,9 @@ go:
 
 before_install:
   - go get github.com/maneac/go-ultralight/go-ultralight
-  - go-ultralight --download
 
-install:
+install: true
 
 script:
+  - go-ultralight
   - go test -v ./...
