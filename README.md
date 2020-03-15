@@ -69,7 +69,9 @@ You must have a working CGo installation and have the GOPATH set.
 # Use
 
 ### If you are a non-Windows user, run the following to enable detection of the binaries:
-
+```bash
+export CGO_LDFLAGS_ALLOW=-Wl,-rpath.*
+```
 After installation, use the setup utility `go-ultralight` , or follow step 4 of the manual installation to copy the necessary binary files to your project directory. These files are required to run the compiled program.
 
 Please build your project with `go build` instead of using `go run`, as run has been known to cause issues with the Browser example.
