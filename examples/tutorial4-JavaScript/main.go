@@ -13,7 +13,7 @@ func createMyApp(window *ultralight.Window) {
 	myApp := &MyApp{}
 
 	// Create an Overlay with the same dimensions as the Window
-	myApp.overlay = window.CreateOverlay(window.GetWidth(), window.GetHeight(), 0, 0)
+	myApp.overlay = ultralight.CreateOverlay(window, window.GetWidth(), window.GetHeight(), 0, 0)
 
 	// Load a string of HTML
 	myApp.overlay.GetView().LoadHTML(`<html>
@@ -37,8 +37,9 @@ func createMyApp(window *ultralight.Window) {
 
 func main() {
 	// Create the App instance
+	settings := ultralight.CreateSettings()
 	config := ultralight.CreateConfig()
-	app := config.CreateApp()
+	app := ultralight.CreateApp(settings, config)
 
 	// Create a Window
 	window := ultralight.CreateWindow(app.GetMainMonitor(), 300, 300, false, ultralight.WindowTitled)

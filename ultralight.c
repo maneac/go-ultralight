@@ -6,8 +6,8 @@ char * printParams(JSContextRef ctx, JSValueRef *params, size_t count) {
 	}
 	size_t destLen = 0;
 	char delimeter[4] = "\t\t\t";
-
-	for (int i = 0; i < count; i++) {
+	int i;
+	for (i = 0; i < count; i++) {
 		if (JSValueIsString(ctx, *params)) {
 			JSStringRef strOut = JSValueToStringCopy(ctx, (params)[i], NULL);
 			destLen += (JSStringGetLength(strOut)+1);
@@ -19,7 +19,7 @@ char * printParams(JSContextRef ctx, JSValueRef *params, size_t count) {
 
 	char output[destLen];	
 
-	for (int i = 0; i < count; i++) {
+	for (i = 0; i < count; i++) {
 		if (JSValueIsString(ctx, *params)) {
 			JSStringRef strOut = JSValueToStringCopy(ctx, (params)[i], NULL);
 			int length = (JSStringGetLength(strOut)+1);
@@ -38,7 +38,7 @@ char * printParams(JSContextRef ctx, JSValueRef *params, size_t count) {
 		}
 	}
 	char * out = malloc(destLen * sizeof(char));
-	for (int i = 0; i < destLen; i++) {
+	for (i = 0; i < destLen; i++) {
 		out[i] = output[i];
 	}
 	return out;
@@ -99,7 +99,8 @@ char * strconv(ULString str) {
 	size_t len = ulStringGetLength(str);
 	ULChar16 *val = ulStringGetData(str);
 	char string[len];
-	for (int i = 0; i < len; i++) {	
+	int i;
+	for (i = 0; i < len; i++) {	
 		if (i == 0) {
 			sprintf(string, "%c", (char)*val & 0x00FF);
 		} else {
@@ -108,7 +109,7 @@ char * strconv(ULString str) {
 		val++;
 	}
 	char *num = malloc(len);
-	for (int i = 0; i < len; i++) {
+	for (i = 0; i < len; i++) {
 		num[i] = string[i];
 	}
 	return num;
@@ -121,7 +122,8 @@ char * evaluateScript(ULView view, ULString script) {
 	JSStringGetUTF8CString(values, value, sizeof(value));
 	// Required to be accessible from Go
 	char *out = malloc(length * sizeof(char));
-	for (int i = 0; i < length; i++) {
+	int i;
+	for (i = 0; i < length; i++) {
 		out[i] = value[i];
 	}
 	return out;

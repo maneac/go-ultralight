@@ -26,14 +26,14 @@ type ui struct {
 func createUI(window *ultralight.Window) *ui {
 	u := ui{}
 	u.window = window
-	u.overlay = window.CreateOverlay(window.GetWidth(), uiHeight, 0, 0)
+	u.overlay = ultralight.CreateOverlay(window, window.GetWidth(), uiHeight, 0, 0)
 	gUI = &u
 	view := u.overlay.GetView()
 	u.tabs = make(map[uint]*tab)
 	u.activeTabID = 0
 	u.tabIDCounter = 0
 
-	window.SetResizeCallback(func(_, _ int) {
+	window.SetResizeCallback(func(_, _ uint) {
 		tabHeight := window.GetHeight() - uiHeight
 		if tabHeight < 1 {
 			tabHeight = 1

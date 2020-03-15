@@ -15,7 +15,7 @@ extern void viewFinishLoadingFunction(void*, ULView);
 extern void viewUpdateHistoryFunction(void*, ULView);
 extern void viewDOMReadyFunction(void*, ULView);
 extern void winCloseFunction(void*);
-extern void winResizeFunction(void*, int, int);
+extern void winResizeFunction(void*, unsigned int, unsigned int);
 extern JSValueRef objFunctionCallback(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject,
                                       size_t argumentCount, JSValueRef *arguments, JSValueRef* exception);
 char * printParams(JSContextRef ctx, JSValueRef *params, size_t count);

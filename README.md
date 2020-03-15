@@ -14,11 +14,10 @@ Ultralight (https://ultralig.ht) is a HTML UI library, written in C++, that prov
 #### Licensing
 
 While this wrapper is open-source, the Ultralight project is not. Use of the binaries downloaded
-either manually or using the tool must be in accordance with their licensing terms. From their website:<br>
-> Ultralight is free for non-commercial use, educational use, and also free for commercial use by
-> small indie developers making less than US$100,000 a year. You can find full terms in the SDK. 
-> Pricing plans for larger commercial projects will be announced later. For more information, 
-> email us (at adam@ultralig.ht).
+either manually or using the tool must be in accordance with their licensing terms. Usage is free for non-commercial
+applications, with the full pricing hierarchy available on the website linked below:
+
+[https://ultralig.ht/#pricing]()
 
 # Installation
 
@@ -30,7 +29,7 @@ You must have a working CGo installation and have the GOPATH set.
 
 1. Run:<br/><br/> `go get github.com/maneac/go-ultralight/go-ultralight` <br/><br/>to download the project and the installation and setup utility.
 
-## Automated - RECOMMENDED
+## Automated - Copying only
 
 2. Navigate to your project's directory and execute:<br/><br/>`go-ultralight [OPTIONS]`<br/><br/>to automatically download the Ultralight SDK, and copy the necessary binaries for running your application. For more information on the available options, please read the utility's help (`go-ultralight --help`).
 3. That's it! Now you're ready to Go-Ultralight!
@@ -48,18 +47,11 @@ You must have a working CGo installation and have the GOPATH set.
           |-go-ultralight
           |-examples
           |-SDK
-       	|-bin
-       	  |-linux
-       	    |-libAppCore.so
-       	    |-libUltralight.so
-                ... 
-              |-windows
-                |-x64
-                  |-AppCore.dll
-                  ...
-                |-x86
-                  |-AppCore.dll
-                  ...
+       	    |-bin
+                |-AppCore.dll
+                |-AppCore.dylib
+       	        |-libAppCore.so
+                |-...
             |-deps
             |-include
             ...
@@ -77,9 +69,6 @@ You must have a working CGo installation and have the GOPATH set.
 # Use
 
 ### If you are a non-Windows user, run the following to enable detection of the binaries:
-```bash
-export CGO_LDFLAGS_ALLOW=-Wl,-rpath.*
-```
 
 After installation, use the setup utility `go-ultralight` , or follow step 4 of the manual installation to copy the necessary binary files to your project directory. These files are required to run the compiled program.
 
@@ -89,6 +78,7 @@ For examples, please see the 'examples' directory, which contains Go implementat
 
 # To Do
 
+- Fix javascript functions / browser example
 - Implement the mouse and keyboard events
 - Write tests
 - Fix any memory leaks

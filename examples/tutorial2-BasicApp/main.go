@@ -7,8 +7,9 @@ import "github.com/maneac/go-ultralight"
 func main() {
 
 	// Create the app instance
+	settings := ultralight.CreateSettings()
 	config := ultralight.CreateConfig()
-	app := config.CreateApp()
+	app := ultralight.CreateApp(settings, config)
 
 	// Create the window for the app
 	window := ultralight.CreateWindow(app.GetMainMonitor(), 300, 300, false, ultralight.WindowTitled)
@@ -21,7 +22,7 @@ func main() {
 	app.SetWindow(window)
 
 	// Creates an overlay with the same dimensions as the window
-	overlay := window.CreateOverlay(window.GetWidth(), window.GetHeight(), 0, 0)
+	overlay := ultralight.CreateOverlay(window, window.GetWidth(), window.GetHeight(), 0, 0)
 
 	// Loads the HTML string into the overlay's View
 	overlay.GetView().LoadHTML("<center>Hello world!</center>")

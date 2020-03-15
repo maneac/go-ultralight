@@ -10,7 +10,7 @@ type browser struct {
 
 func createBrowser() *browser {
 	b := browser{}
-	b.app = ultralight.CreateConfig().CreateApp()
+	b.app = ultralight.CreateApp(ultralight.CreateSettings(), ultralight.CreateConfig())
 	b.window = ultralight.CreateWindow(b.app.GetMainMonitor(), 1024, 768, false, ultralight.WindowResizable|ultralight.WindowTitled|ultralight.WindowMaximizable)
 	b.window.SetTitle("Ultralight Sample - Browser")
 	b.app.SetWindow(b.window)

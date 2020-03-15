@@ -1,18 +1,12 @@
 package ultralight
 
 // #cgo CPPFLAGS: -I"./SDK/include"
-// #cgo windows,amd64 LDFLAGS: -L'./SDK/lib/win/x64' -lUltralight -lUltralightCore -lWebCore -lAppCore
-// #cgo windows,i386 LDFLAGS: -L'./SDK/lib/win/x86' -lUltralight -lUltralightCore -lWebCore -lAppCore
-// #cgo linux LDFLAGS: -L'./SDK/bin/linux' -lUltralight -lUltralightCore -lWebCore -lAppCore -Wl,-rpath,.
-// #cgo darwin LDFLAGS: -L'./SDK/bin/mac' -lUltralight -lUltralightCore -lWebCore -lAppCore -Wl,-rpath,.
+// #cgo windows,amd64 LDFLAGS: -L'./SDK/lib' -lUltralight -lUltralightCore -lWebCore -lAppCore
 // #include <ultralight.h>
 import "C"
 
-import (
-	"unsafe"
-)
+import "unsafe"
 
-var appUpdate func()
 var viewChangeTitle map[C.ULView]func(string)
 var viewChangeURL map[C.ULView]func(string)
 var viewChangeTooltip map[C.ULView]func(string)
@@ -22,29 +16,18 @@ var viewBeginLoading map[C.ULView]func()
 var viewFinishLoading map[C.ULView]func()
 var viewUpdateHistory map[C.ULView]func()
 var viewDOMReady map[C.ULView]func()
-var winClose func()
-var winResize func(int, int)
 
-/******************************************************************************
- * App
- *****************************************************************************/
-
-// SetUpdateCallback executes the specified function whenever the App updates
-func (a *App) SetUpdateCallback(callFunc func()) {
-	appUpdate = callFunc
-	C.setAppUpdateCallback(a.a)
+func init() {
+	viewChangeTitle = make(map[C.ULView]func(string))
+	viewChangeURL = make(map[C.ULView]func(string))
+	viewChangeTooltip = make(map[C.ULView]func(string))
+	viewChangeCursor = make(map[C.ULView]func(Cursor))
+	viewAddConsoleMessage = make(map[C.ULView]func(MessageSource, MessageLevel, string, uint, uint, string))
+	viewBeginLoading = make(map[C.ULView]func())
+	viewFinishLoading = make(map[C.ULView]func())
+	viewUpdateHistory = make(map[C.ULView]func())
+	viewDOMReady = make(map[C.ULView]func())
 }
-
-//export appUpdateFunction
-func appUpdateFunction(_ unsafe.Pointer) {
-	if appUpdate != nil {
-		appUpdate()
-	}
-}
-
-/******************************************************************************
- * View
- *****************************************************************************/
 
 // SetChangeTitleCallback executes the specified function when the page title
 // changes
@@ -172,36 +155,5 @@ func (view *View) SetDOMReadyCallback(callFunc func()) {
 func viewDOMReadyFunction(_ unsafe.Pointer, v C.ULView) {
 	if viewDOMReady != nil {
 		viewDOMReady[v]()
-	}
-}
-
-/******************************************************************************
- * Window
- *****************************************************************************/
-
-// SetCloseCallback executes the specified function when the Window closes
-func (win *Window) SetCloseCallback(callFunc func()) {
-	winClose = callFunc
-	C.setWinCloseCallback(win.w)
-}
-
-//export winCloseFunction
-func winCloseFunction(_ unsafe.Pointer) {
-	if winClose != nil {
-		winClose()
-	}
-}
-
-// SetResizeCallback executes the specified function when the Window is
-// resized
-func (win *Window) SetResizeCallback(callFunc func(width int, height int)) {
-	winResize = callFunc
-	C.setWinResizeCallback(win.w)
-}
-
-//export winResizeFunction
-func winResizeFunction(_ unsafe.Pointer, width, height C.int) {
-	if winResize != nil {
-		winResize(int(width), int(height))
 	}
 }

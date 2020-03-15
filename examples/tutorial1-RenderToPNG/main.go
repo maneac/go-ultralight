@@ -4,17 +4,17 @@ import "github.com/maneac/go-ultralight"
 
 // Golang implementation of Ultralight sample Tutorial 1
 
-type MyApp struct {
+type myApp struct {
 	renderer *ultralight.Renderer
 	view     *ultralight.View
 	done     bool
 }
 
-func createMyApp() *MyApp {
-	myApp := &MyApp{}
+func createMyApp() *myApp {
+	myApp := &myApp{}
 	config := ultralight.CreateConfig()
-	myApp.renderer = config.CreateRenderer()
-	myApp.view = myApp.renderer.CreateView(200, 200, false)
+	myApp.renderer = ultralight.CreateRenderer(config)
+	myApp.view = ultralight.CreateView(myApp.renderer, 200, 200, false)
 	myApp.view.LoadHTML("<h1>Hello</h1><p>Welcome to Ultralight!</p>")
 
 	// Writes the rendered page to a PNG file
@@ -27,7 +27,7 @@ func createMyApp() *MyApp {
 	return myApp
 }
 
-func (myApp *MyApp) Run() {
+func (myApp *myApp) run() {
 	// Continually updates the renderer until the page
 	//     loads, calling the PNG writing function
 	for !myApp.done {
@@ -37,5 +37,5 @@ func (myApp *MyApp) Run() {
 
 func main() {
 	app := createMyApp()
-	app.Run()
+	app.run()
 }

@@ -9,16 +9,16 @@ type tab struct {
 	overlay                         *ultralight.Overlay
 	id                              uint
 	isReadyToClose                  bool
-	containerWidth, containerHeight int
+	containerWidth, containerHeight uint
 }
 
-func (u *ui) createTab(id uint, width, height int, x, y int) *tab {
+func (u *ui) createTab(id uint, width, height uint, x, y int) *tab {
 	t := tab{}
 	t.ui = u
 	t.id = id
 	t.containerWidth = width
 	t.containerHeight = height
-	t.overlay = u.window.CreateOverlay(width, height, x, y)
+	t.overlay = ultralight.CreateOverlay(u.window, width, height, x, y)
 
 	t.view().SetChangeTitleCallback(func(title string) {
 		t.ui.updateTabTitle(t.id, title)
@@ -65,6 +65,6 @@ func (t *tab) hide() {
 	t.overlay.Unfocus()
 }
 
-func (t *tab) resize(width, height int) {
+func (t *tab) resize(width, height uint) {
 	t.overlay.Resize(width, height)
 }

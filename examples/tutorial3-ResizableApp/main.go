@@ -4,17 +4,18 @@ import "github.com/maneac/go-ultralight"
 
 // Golang implementation of Ultralight sample Tutorial 3
 
-type MyApp struct {
+type myApp struct {
 	app     *ultralight.App
 	window  *ultralight.Window
 	overlay *ultralight.Overlay
 }
 
-func createMyApp() *MyApp {
-	myApp := &MyApp{}
+func createMyApp() *myApp {
+	myApp := &myApp{}
 	// Create the app instance
+	settings := ultralight.CreateSettings()
 	config := ultralight.CreateConfig()
-	myApp.app = config.CreateApp()
+	myApp.app = ultralight.CreateApp(settings, config)
 
 	// Create the window for the app
 	myApp.window = ultralight.CreateWindow(myApp.app.GetMainMonitor(),
@@ -28,7 +29,7 @@ func createMyApp() *MyApp {
 	myApp.app.SetWindow(myApp.window)
 
 	// Creates an overlay with the same dimensions as the window
-	myApp.overlay = myApp.window.CreateOverlay(myApp.window.GetWidth(),
+	myApp.overlay = ultralight.CreateOverlay(myApp.window, myApp.window.GetWidth(),
 		myApp.window.GetHeight(), 0, 0)
 
 	// Loads the HTML string into the overlay's View
@@ -36,18 +37,18 @@ func createMyApp() *MyApp {
 
 	// Resizes the Overlay to the dimensions of the Window when
 	//     resized
-	myApp.window.SetResizeCallback(func(width, height int) {
+	myApp.window.SetResizeCallback(func(width, height uint) {
 		myApp.overlay.Resize(width, height)
 	})
 
 	return myApp
 }
 
-func (myApp *MyApp) Run() {
+func (myApp *myApp) run() {
 	myApp.app.Run()
 }
 
 func main() {
 	app := createMyApp()
-	app.Run()
+	app.run()
 }

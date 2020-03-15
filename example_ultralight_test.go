@@ -2,6 +2,7 @@ package ultralight_test
 
 import (
 	"fmt"
+
 	"github.com/maneac/go-ultralight"
 )
 

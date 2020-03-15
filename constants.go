@@ -1,7 +1,9 @@
 package ultralight
 
+// MessageSource enumerates the possible sources for a message
 type MessageSource int
 
+// The message sources
 const (
 	XML MessageSource = iota
 	JS
@@ -16,8 +18,10 @@ const (
 	Other
 )
 
+// MessageLevel enumerates the severity levels of a message
 type MessageLevel int
 
+// The severity levels
 const (
 	Log MessageLevel = iota + 1
 	Warning
@@ -26,8 +30,10 @@ const (
 	Info
 )
 
+// Cursor enumerates the different types of cursor to show
 type Cursor int
 
+// The cursor types
 const (
 	Pointer Cursor = iota
 	Cross
@@ -75,8 +81,10 @@ const (
 	Custom
 )
 
+// BitmapFormat enumerates the possible formats for a bitmap
 type BitmapFormat int
 
+// The bitmap formats
 const (
 	A8 BitmapFormat = iota
 	RGBA8
