@@ -6,6 +6,7 @@ package ultralight
 // #cgo darwin LDFLAGS: -L'./SDK/bin' -lUltralight -lUltralightCore -lWebCore -lAppCore -Wl,-rpath,.
 // #include <ultralight.h>
 import "C"
+import "unsafe"
 
 // View wraps the underlying struct
 type View struct {
@@ -53,12 +54,16 @@ func (view *View) GetBitmap() *Bitmap {
 
 // LoadHTML loads a raw string of HTML into the main frame
 func (view *View) LoadHTML(html string) {
-	C.ulViewLoadHTML(view.v, C.ulCreateString(C.CString(html)))
+	cHTML := C.CString(html)
+	defer C.free(unsafe.Pointer(cHTML))
+	C.ulViewLoadHTML(view.v, C.ulCreateString(cHTML))
 }
 
 // LoadURL loads the specified URL into the main frame
 func (view *View) LoadURL(url string) {
-	C.ulViewLoadURL(view.v, C.ulCreateString(C.CString(url)))
+	cURL := C.CString(url)
+	defer C.free(unsafe.Pointer(cURL))
+	C.ulViewLoadURL(view.v, C.ulCreateString(cURL))
 }
 
 // Resize changes the View dimensions to the specified width
@@ -75,7 +80,9 @@ func (view *View) GetJSContext() JSContext {
 // EvaluateScript evaluates a raw string of JavaScript, and
 // returns the result
 func (view *View) EvaluateScript(script string) string {
-	return C.GoString(C.evaluateScript(view.v, C.ulCreateString(C.CString(script))))
+	cScript := C.CString(script)
+	defer C.free(unsafe.Pointer(cScript))
+	return C.GoString(C.evaluateScript(view.v, C.ulCreateString(cScript)))
 }
 
 // CanGoBack checks if backwards history navigation is available
@@ -128,5 +135,7 @@ func (view *View) GetNeedsPaint() bool {
 // BindJSCallback executes the specified function when a JavaScript call
 // to the 'name' function is made
 func (view *View) BindJSCallback(name string, function JSBindFunc) {
-	funcMap[C.bindScript(view.v, C.CString(name))] = viewFunc{view, function}
+	cName := C.CString(name)
+	defer C.free(unsafe.Pointer(cName))
+	funcMap[C.bindScript(view.v, cName)] = viewFunc{view, function}
 }

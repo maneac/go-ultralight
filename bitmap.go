@@ -6,6 +6,7 @@ package ultralight
 // #cgo darwin LDFLAGS: -L'./SDK/bin' -lUltralight -lUltralightCore -lWebCore -lAppCore -Wl,-rpath,.
 // #include <ultralight.h>
 import "C"
+import "unsafe"
 
 // Bitmap wraps the underlying struct
 type Bitmap struct {
@@ -14,5 +15,7 @@ type Bitmap struct {
 
 // WritePNG writes the Bitmap to the specified path as a PNG
 func (bit *Bitmap) WritePNG(path string) bool {
-	return bool(C.ulBitmapWritePNG(bit.b, C.CString(path)))
+	cPath := C.CString(path)
+	defer C.free(unsafe.Pointer(cPath))
+	return bool(C.ulBitmapWritePNG(bit.b, cPath))
 }

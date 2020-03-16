@@ -9,8 +9,8 @@ import (
 func ExampleView_BindJSCallback() {
 	// Create the app instance
 	config := ultralight.CreateConfig()
-	renderer := config.CreateRenderer()
-	view := renderer.CreateView(300, 300, false)
+	renderer := ultralight.CreateRenderer(config)
+	view := ultralight.CreateView(renderer, 300, 300, false)
 
 	// Prints each name passed to the 'hello' JavaScript function to the console
 	view.BindJSCallback("hello", func(v *ultralight.View, parameters []string) {

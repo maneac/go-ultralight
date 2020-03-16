@@ -27,4 +27,4 @@ jobs:
         go get -v -t -d ./...
 
     - name: Build
-      run: go build -v ./go-ultralight
+      run: go build -v ./go-ultralight/. -o go-ul-bin

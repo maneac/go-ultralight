@@ -6,6 +6,7 @@ package ultralight
 // #cgo darwin LDFLAGS: -L'./SDK/bin' -lUltralight -lUltralightCore -lWebCore -lAppCore -Wl,-rpath,.
 // #include <ultralight.h>
 import "C"
+import "unsafe"
 
 // Window wraps the underlying struct
 type Window struct {
@@ -44,7 +45,9 @@ func (win *Window) GetScale() float64 {
 
 // SetTitle sets the title of the Window instance
 func (win *Window) SetTitle(title string) {
-	C.ulWindowSetTitle(win.w, C.CString(title))
+	cTitle := C.CString(title)
+	defer C.free(unsafe.Pointer(cTitle))
+	C.ulWindowSetTitle(win.w, cTitle)
 }
 
 // SetCursor sets the cursor for the Window instance

@@ -6,6 +6,7 @@ package ultralight
 // #cgo darwin LDFLAGS: -L'./SDK/bin' -lUltralight -lUltralightCore -lWebCore -lAppCore -Wl,-rpath,.
 // #include <ultralight.h>
 import "C"
+import "unsafe"
 
 // Settings wraps the underlying struct
 type Settings struct {
@@ -24,7 +25,9 @@ func (s *Settings) Destroy() {
 
 // SetFileSystemPath sets the root file path for all data used by the app
 func (s *Settings) SetFileSystemPath(path string) {
-	C.ulSettingsSetFileSystemPath(s.s, C.ulCreateString(C.CString(path)))
+	cPath := C.CString(path)
+	defer C.free(unsafe.Pointer(cPath))
+	C.ulSettingsSetFileSystemPath(s.s, C.ulCreateString(cPath))
 }
 
 // SetLoadShadersFromFileSystem decides whether or not to load and compile

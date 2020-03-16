@@ -6,6 +6,7 @@ package ultralight
 // #cgo darwin LDFLAGS: -L'./SDK/bin' -lUltralight -lUltralightCore -lWebCore -lAppCore -Wl,-rpath,.
 // #include <ultralight.h>
 import "C"
+import "unsafe"
 
 // Config wraps the C config stuct
 type Config struct {
@@ -47,33 +48,45 @@ func (conf *Config) DeviceScaleHint(value float64) {
 
 // FontFamilyStandard sets the default font-family to use (Default = "Times New Roman")
 func (conf *Config) FontFamilyStandard(fontName string) {
-	C.ulConfigSetFontFamilyStandard(conf.c, C.ulCreateString(C.CString(fontName)))
+	cFontName := C.CString(fontName)
+	defer C.free(unsafe.Pointer(cFontName))
+	C.ulConfigSetFontFamilyStandard(conf.c, C.ulCreateString(cFontName))
 }
 
 // FontFamilyFixed sets the default font-family to use for fixed fonts, e.g. <pre>
 // and <code> (Default = "Courier New")
 func (conf *Config) FontFamilyFixed(fontName string) {
-	C.ulConfigSetFontFamilyFixed(conf.c, C.ulCreateString(C.CString(fontName)))
+	cFontName := C.CString(fontName)
+	defer C.free(unsafe.Pointer(cFontName))
+	C.ulConfigSetFontFamilyFixed(conf.c, C.ulCreateString(cFontName))
 }
 
 // FontFamilySerif sets the default font-family to use for serif fonts
 // (Default = "Times New Roman")
 func (conf *Config) FontFamilySerif(fontName string) {
-	C.ulConfigSetFontFamilySerif(conf.c, C.ulCreateString(C.CString(fontName)))
+	cFontName := C.CString(fontName)
+	defer C.free(unsafe.Pointer(cFontName))
+	C.ulConfigSetFontFamilySerif(conf.c, C.ulCreateString(cFontName))
 }
 
 // FontFamilySansSerif sets the default font-family to use for sans-serif fonts
 // (Default = "Arial")
 func (conf *Config) FontFamilySansSerif(fontName string) {
-	C.ulConfigSetFontFamilySansSerif(conf.c, C.ulCreateString(C.CString(fontName)))
+	cFontName := C.CString(fontName)
+	defer C.free(unsafe.Pointer(cFontName))
+	C.ulConfigSetFontFamilySansSerif(conf.c, C.ulCreateString(cFontName))
 }
 
 // UserAgent sets the user agent string
 func (conf *Config) UserAgent(agent string) {
-	C.ulConfigSetUserAgent(conf.c, C.ulCreateString(C.CString(agent)))
+	cAgent := C.CString(agent)
+	defer C.free(unsafe.Pointer(cAgent))
+	C.ulConfigSetUserAgent(conf.c, C.ulCreateString(cAgent))
 }
 
 // UserStylesheet sets the user stylesheet (CSS) (Default = Empty)
 func (conf *Config) UserStylesheet(css string) {
-	C.ulConfigSetUserStylesheet(conf.c, C.ulCreateString(C.CString(css)))
+	cCSS := C.CString(css)
+	defer C.free(unsafe.Pointer(cCSS))
+	C.ulConfigSetUserStylesheet(conf.c, C.ulCreateString(cCSS))
 }
