@@ -48,46 +48,51 @@ func createUI(window *ultralight.Window) *ui {
 		bindCallbacks(&u, view)
 	})
 
-	view.LoadURL("file://assets/ui.html")
+	view.LoadURL("file:///assets/ui.html")
 
 	return &u
 }
 
 func bindCallbacks(u *ui, view *ultralight.View) {
-	view.BindJSCallback("OnBack", func(v *ultralight.View, params []string) {
+	view.BindJSCallback("OnBack", func(v *ultralight.View, params []string) *ultralight.JSValue {
 		t := u.activeTab()
 		if t != nil {
 			t.view().GoBack()
 		}
+		return nil
 	})
-	view.BindJSCallback("OnForward", func(v *ultralight.View, params []string) {
+	view.BindJSCallback("OnForward", func(v *ultralight.View, params []string) *ultralight.JSValue {
 		t := u.activeTab()
 		if t != nil {
 			t.view().GoForward()
 		}
+		return nil
 	})
-	view.BindJSCallback("OnRefresh", func(v *ultralight.View, params []string) {
+	view.BindJSCallback("OnRefresh", func(v *ultralight.View, params []string) *ultralight.JSValue {
 		t := u.activeTab()
 		if t != nil {
 			t.view().Reload()
 		}
+		return nil
 	})
-	view.BindJSCallback("OnStop", func(v *ultralight.View, params []string) {
+	view.BindJSCallback("OnStop", func(v *ultralight.View, params []string) *ultralight.JSValue {
 		t := u.activeTab()
 		if t != nil {
 			t.view().Stop()
 		}
+		return nil
 	})
-	view.BindJSCallback("OnRequestNewTab", func(v *ultralight.View, params []string) {
+	view.BindJSCallback("OnRequestNewTab", func(v *ultralight.View, params []string) *ultralight.JSValue {
 		u.createNewTab()
+		return nil
 	})
-	view.BindJSCallback("OnRequestTabClose", func(v *ultralight.View, params []string) {
+	view.BindJSCallback("OnRequestTabClose", func(v *ultralight.View, params []string) *ultralight.JSValue {
 		if len(params) == 1 {
 			intID, _ := strconv.Atoi(params[0])
 			id := uint(intID)
 			tab := u.tabs[id]
 			if tab == nil {
-				return
+				return nil
 			}
 			if len(u.tabs) == 1 {
 				globalBrowser.app.Quit()
@@ -99,14 +104,15 @@ func bindCallbacks(u *ui, view *ultralight.View) {
 				tab.setReadyToClose(true)
 			}
 		}
+		return nil
 	})
-	view.BindJSCallback("OnActiveTabChange", func(v *ultralight.View, params []string) {
+	view.BindJSCallback("OnActiveTabChange", func(v *ultralight.View, params []string) *ultralight.JSValue {
 		if len(params) == 1 {
 			intID, _ := strconv.Atoi(params[0])
 			id := uint(intID)
 			tab := u.tabs[id]
 			if tab == nil {
-				return
+				return nil
 			}
 			u.tabs[u.activeTabID].hide()
 
@@ -123,13 +129,15 @@ func bindCallbacks(u *ui, view *ultralight.View) {
 			u.setCanGoForward(tabView.CanGoForward())
 			u.setURL(tabView.GetURL())
 		}
+		return nil
 	})
-	view.BindJSCallback("OnRequestChangeURL", func(v *ultralight.View, params []string) {
+	view.BindJSCallback("OnRequestChangeURL", func(v *ultralight.View, params []string) *ultralight.JSValue {
 		if len(params) == 1 {
 			if len(u.tabs) > 0 {
 				u.tabs[u.activeTabID].view().LoadURL(params[0])
 			}
 		}
+		return nil
 	})
 
 	u.createNewTab()
@@ -144,7 +152,7 @@ func (u *ui) createNewTab() {
 		tabHeight = 1
 	}
 	u.tabs[id] = u.createTab(id, window.GetWidth(), tabHeight, 0, uiHeight)
-	u.tabs[id].view().LoadURL("file://assets/new_tab_page.html")
+	u.tabs[id].view().LoadURL("file:///assets/new_tab_page.html")
 	u.view().EvaluateScript(fmt.Sprintf("addTab(%d,\"%s\",\"%s\")", id, "New Tab", ""))
 }
 
