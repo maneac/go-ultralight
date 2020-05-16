@@ -94,7 +94,7 @@ void setWinResizeCallback(ULWindow win) {
 
 char * strconv(ULString str) {
 	if (ulStringGetLength(str) == 0) {
-		return "";
+		return NULL;
 	}
 	size_t len = ulStringGetLength(str);
 	ULChar16 *val = ulStringGetData(str);
@@ -108,6 +108,7 @@ char * strconv(ULString str) {
 		}
 		val++;
 	}
+	// Required to be accessible from Go
 	char *num = malloc(len);
 	for (i = 0; i < len; i++) {
 		num[i] = string[i];
@@ -134,4 +135,24 @@ JSObjectRef bindScript(ULView view, char* name) {
 	JSObjectRef func = JSObjectMakeFunctionWithCallback(ctx, NULL, (JSObjectCallAsFunctionCallback)objFunctionCallback);
 	JSObjectSetProperty(ctx, JSContextGetGlobalObject(ctx), JSStringCreateWithUTF8CString(name), func, 0, NULL);
 	return func;
+}
+
+JSValueRef makeJSValueString(ULView view, char * val) {
+	return JSValueMakeString(ulViewGetJSContext(view), JSStringCreateWithUTF8CString(val));
+}
+
+JSValueRef makeJSValueBool(ULView view, bool val) {
+	return JSValueMakeBoolean(ulViewGetJSContext(view), val);
+}
+
+JSValueRef makeJSValueNum(ULView view, double val) {
+	return JSValueMakeNumber(ulViewGetJSContext(view), val);
+}
+
+JSValueRef makeJSValueJSON(ULView view, char * val) {
+	JSValueRef res = JSValueMakeFromJSONString(ulViewGetJSContext(view), JSStringCreateWithUTF8CString(val));
+	if (res == NULL) {
+		return NULL;
+	}
+	return res;
 }

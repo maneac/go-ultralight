@@ -10,6 +10,9 @@ import "unsafe"
 
 func ulStrToStr(str C.ULString) string {
 	cstring := C.strconv(str)
+	if cstring == nil {
+		return ""
+	}
 	defer C.free(unsafe.Pointer(cstring))
 	return C.GoString(cstring)
 }

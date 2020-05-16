@@ -13,19 +13,15 @@ func ExampleView_BindJSCallback() {
 	view := ultralight.CreateView(renderer, 300, 300, false)
 
 	// Prints each name passed to the 'hello' JavaScript function to the console
-	view.BindJSCallback("hello", func(v *ultralight.View, parameters []string) {
-		// Checks if any parameters were passed to the JavaScript function
-		if len(parameters) > 0 {
-			for i := range parameters {
-				if parameters[i] != "" {
-					fmt.Printf("Hello %s!\n", parameters[i])
-				} else {
-					fmt.Println("Hello mystery person!")
-				}
+	view.BindJSCallback("hello", func(v *ultralight.View, parameters []string) *ultralight.JSValue {
+		for i := range parameters {
+			if parameters[i] == "" {
+				fmt.Println("Hello mystery person!")
+				continue
 			}
-		} else {
-			fmt.Println("Hello mystery person!")
+			fmt.Printf("Hello %s!\n", parameters[i])
 		}
+		return nil
 	})
 
 	isReady := false

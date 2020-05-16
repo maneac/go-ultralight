@@ -1,6 +1,8 @@
 package main
 
-import "github.com/maneac/go-ultralight"
+import (
+	"github.com/maneac/go-ultralight"
+)
 
 // Golang implementation of Ultralight sample Tutorial 4
 
@@ -30,8 +32,9 @@ func createMyApp(window *ultralight.Window) {
 	`)
 
 	// Bind the Go function to the JavaScript function 'GetMessage'
-	myApp.overlay.GetView().BindJSCallback("GetMessage", func(v *ultralight.View, params []string) {
+	myApp.overlay.GetView().BindJSCallback("GetMessage", func(v *ultralight.View, params []string) *ultralight.JSValue {
 		v.EvaluateScript("document.getElementById('message').innerHTML = 'Ultralight rocks!';")
+		return nil
 	})
 }
 

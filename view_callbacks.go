@@ -6,7 +6,6 @@ package ultralight
 // #cgo darwin LDFLAGS: -L'./SDK/bin' -lUltralight -lUltralightCore -lWebCore -lAppCore -Wl,-rpath,.
 // #include <ultralight.h>
 import "C"
-
 import "unsafe"
 
 var viewChangeTitle map[C.ULView]func(string)

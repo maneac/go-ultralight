@@ -34,3 +34,8 @@ void setWinResizeCallback(ULWindow win);
 char * strconv(ULString str);
 char * evaluateScript(ULView view, ULString script);
 JSObjectRef bindScript(ULView view, char* name);
+// Supported return types for JS Callback functions
+JSValueRef makeJSValueString(ULView view, char * str);
+JSValueRef makeJSValueBool(ULView view, bool val);
+JSValueRef makeJSValueNum(ULView view, double val);
+JSValueRef makeJSValueJSON(ULView view, char * val);

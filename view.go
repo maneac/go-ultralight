@@ -15,7 +15,7 @@ type View struct {
 
 // JSBindFunc defines the structure of JavaScript callback functions, where
 // 'params' is an array of the parameters passed to the JavaScript function
-type JSBindFunc func(view *View, params []string)
+type JSBindFunc func(view *View, params []string) *JSValue
 
 // CreateView creates a View instance with the specified size (in device coordinates)
 func CreateView(rend *Renderer, width, height uint, isTransparent bool) *View {
@@ -138,4 +138,36 @@ func (view *View) BindJSCallback(name string, function JSBindFunc) {
 	cName := C.CString(name)
 	defer C.free(unsafe.Pointer(cName))
 	funcMap[C.bindScript(view.v, cName)] = viewFunc{view, function}
+}
+
+// JSBindString will wrap a string value to be retuned by a bound Go function
+func (view *View) JSBindString(val string) *JSValue {
+	cVal := C.CString(val)
+	defer C.free(unsafe.Pointer(cVal))
+	return &JSValue{
+		jv: C.makeJSValueString(view.v, cVal),
+	}
+}
+
+// JSBindBool will wrap a boolean value to be retuned by a bound Go function
+func (view *View) JSBindBool(val bool) *JSValue {
+	return &JSValue{
+		jv: C.makeJSValueBool(view.v, C.bool(val)),
+	}
+}
+
+// JSBindNum will wrap a numeric value to be retuned by a bound Go function
+func (view *View) JSBindNum(val float64) *JSValue {
+	return &JSValue{
+		jv: C.makeJSValueNum(view.v, C.double(val)),
+	}
+}
+
+// JSBindJSON will wrap a JSON string value to be retuned by a bound Go function
+func (view *View) JSBindJSON(val string) *JSValue {
+	cVal := C.CString(val)
+	defer C.free(unsafe.Pointer(cVal))
+	return &JSValue{
+		jv: C.makeJSValueJSON(view.v, cVal),
+	}
 }

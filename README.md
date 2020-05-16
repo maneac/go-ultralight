@@ -80,7 +80,9 @@ For examples, please see the 'examples' directory, which contains Go implementat
 
 # To Do
 
-- Fix javascript functions / browser example
 - Implement the mouse and keyboard events
 - Write tests
-- Fix any memory leaks
+
+
+
+Last updated: 16/05/2020

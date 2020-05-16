@@ -6,7 +6,6 @@ package ultralight
 // #cgo darwin LDFLAGS: -L'./SDK/bin' -lUltralight -lUltralightCore -lWebCore -lAppCore -Wl,-rpath,.
 // #include <ultralight.h>
 import "C"
-
 import "strings"
 
 // JSContext wraps the underlying struct
@@ -38,6 +37,9 @@ func objFunctionCallback(ctx C.JSContextRef, function C.JSObjectRef, _ C.JSObjec
 		args = []string{}
 	}
 	vf := funcMap[function]
-	vf.f(vf.v, args)
+	res := vf.f(vf.v, args)
+	if res != nil {
+		return (*res).jv
+	}
 	return nil
 }
