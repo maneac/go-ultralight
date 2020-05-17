@@ -11,10 +11,10 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:3f85c21429bed84a8cc302779080ab4aa9d05acd6f6a2d0cb5e7cd2d75788227"
+  digest = "1:4d67009f775c245043273d7d6290c7b455b218ecc2cf660a8cd3dc732758131c"
   name = "github.com/gen2brain/go-unarr"
   packages = ["."]
-  pruneopts = "UT"
+  pruneopts = "T"
   revision = "d083a5a1fc2606684d0bd4e3a4fb090d798affe7"
 
 [solve-meta]
