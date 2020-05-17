@@ -8,12 +8,12 @@ import (
 )
 
 type flagVals struct {
-	dryRun   bool
-	download bool
-	copy     bool
-	goos     string
-	allOS    bool
-	output   string
+	dryRun     bool
+	noDownload bool
+	noCopy     bool
+	goos       string
+	allOS      bool
+	output     string
 }
 
 type utility struct {
@@ -41,8 +41,8 @@ func osToUL(os string) string {
 func main() {
 	envOpts := flagVals{}
 	flag.BoolVar(&envOpts.dryRun, "dry-run", false, "Performs a dry run.")
-	flag.BoolVar(&envOpts.download, "download", true, "Download the SDK if it does not exist.")
-	flag.BoolVar(&envOpts.copy, "copy", true, "Copy the binaries to your current directory.")
+	flag.BoolVar(&envOpts.noDownload, "no-download", false, "Do not download the SDK if it does not exist.")
+	flag.BoolVar(&envOpts.noCopy, "no-copy", false, "Do not copy binaries to your current directory.")
 	flag.StringVar(&envOpts.goos, "os", runtime.GOOS, "Target OS to fetch the binaries for.\nSupported options: linux, windows, darwin")
 	flag.BoolVar(&envOpts.allOS, "all", false, "Fetch binaries for all supported OSes. Overrides 'os' flag.")
 	flag.StringVar(&envOpts.output, "output", "", "Copy binaries to a specific folder instead of the current directory.")
@@ -63,12 +63,12 @@ func main() {
 	u.getDirectories()
 
 	// download and extract the SDK
-	if u.flags.download {
+	if !u.flags.noDownload {
 		u.download()
 	}
 
 	// copy the binaries to the target project
-	if u.flags.copy {
+	if !u.flags.noCopy {
 		u.install()
 	}
 }
