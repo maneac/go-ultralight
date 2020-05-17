@@ -6,64 +6,56 @@ import (
 	"path/filepath"
 )
 
-func isModule(dir string) bool {
-	moduleFiles, err := filepath.Glob(filepath.Join(dir, "go.mod"))
+// getDirectories gets the required directories
+func (u *utility) getDirectories() {
+	var err error
+	if u.flags.output != "" {
+		u.userDir = u.flags.output
+		if _, err := os.Stat(u.userDir); err != nil {
+			log.Fatalf("Invalid output directory specified: %s", u.userDir)
+		}
+	} else {
+		u.userDir, err = os.Getwd()
+		if err != nil {
+			log.Fatalf("Failed to get current directory: %v", err)
+		}
+	}
+	// check if directory is a Go Module project
+	moduleFiles, err := filepath.Glob(filepath.Join(u.userDir, "go.mod"))
 	if err != nil {
 		log.Fatalf("Failed to check for module file: %v", err)
 	}
-	return len(moduleFiles) > 0
-}
-
-func isVendor(dir string) bool {
-	vendorFoler, err := filepath.Glob(filepath.Join(dir, "vendor/"))
+	u.isModule = len(moduleFiles) > 0
+	vendorFolder, err := filepath.Glob(filepath.Join(u.userDir, "vendor/"))
 	if err != nil {
 		log.Fatalf("Failed to check for vendor folder: %v", err)
 	}
-	return len(vendorFoler) > 0
-}
-
-func getSrcDir(isModule bool) string {
+	if len(vendorFolder) > 0 {
+		u.vendorDir = filepath.Join(u.userDir, "vendor", "github.com", "maneac", "go-ultralight")
+	}
 	gopath := os.Getenv("GOPATH")
 	if gopath == "" {
 		log.Fatalf("GOPATH not set!")
 	}
 	srcDir, err := filepath.Abs(gopath)
 	if err != nil {
-		log.Fatalf("Failed to get GOPATH: %v", err)
+		log.Fatalf("Failed to get GOPATH directory path: %v", err)
 	}
-	if isModule {
+	if u.isModule {
 		srcDir = filepath.Join(srcDir, "pkg", "mod", "github.com", "maneac")
 		ulDir, err := filepath.Glob(filepath.Join(srcDir, "go-ultralight*"))
 		if err != nil {
 			log.Fatalf("Failed to search module package directory: %v", err)
 		}
-		if len(ulDir) > 0 {
-			srcDir = ulDir[0]
-		} else {
+		if len(ulDir) == 0 {
 			log.Fatalf("Failed to find go-ultralight in package directory!")
 		}
-	} else {
-		srcDir = filepath.Join(srcDir, "src", "github.com", "maneac", "go-ultralight")
+		u.packageDir = ulDir[0]
+		return
 	}
+	u.packageDir = filepath.Join(srcDir, "src", "github.com", "maneac", "go-ultralight")
 
-	if _, err := os.Stat(srcDir); os.IsNotExist(err) {
-		log.Fatalf("Package go-ultralight not found in %s!", srcDir)
+	if _, err := os.Stat(u.packageDir); os.IsNotExist(err) {
+		log.Fatalf("Package go-ultralight not found in %s!", u.packageDir)
 	}
-	return srcDir
-}
-
-func getDestDir(outPath string) string {
-	dest, err := filepath.Abs(outPath)
-	if err != nil {
-		log.Fatalf("Failed to get output directory: %v", err)
-	}
-	return dest
-}
-
-func getCurrentDir() string {
-	dir, err := filepath.Abs(".")
-	if err != nil {
-		log.Fatalf("Failed to get current directory: %v", err)
-	}
-	return dir
 }

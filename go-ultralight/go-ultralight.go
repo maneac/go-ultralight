@@ -2,36 +2,73 @@ package main
 
 import (
 	"flag"
-	"path/filepath"
+	"log"
 	"runtime"
+	"strings"
 )
 
-var goos string
-var copyAll bool
+type flagVals struct {
+	dryRun   bool
+	download bool
+	copy     bool
+	goos     string
+	allOS    bool
+	output   string
+}
+
+type utility struct {
+	flags *flagVals
+	// current working directory
+	userDir   string
+	vendorDir string
+	isModule  bool
+	// location of the go-ultralight package
+	packageDir string
+}
+
+func osToUL(os string) string {
+	switch os {
+	case "linux":
+		return "linux"
+	case "darwin":
+		return "mac"
+	case "windows":
+		return "win"
+	}
+	return ""
+}
 
 func main() {
-	flag.StringVar(&goos, "os", runtime.GOOS, "Target OS to fetch the binaries for")
-	flag.BoolVar(&copyAll, "copy-all", false, "Copy the binaries for every OS")
+	envOpts := flagVals{}
+	flag.BoolVar(&envOpts.dryRun, "dry-run", false, "Performs a dry run.")
+	flag.BoolVar(&envOpts.download, "download", true, "Download the SDK if it does not exist.")
+	flag.BoolVar(&envOpts.copy, "copy", true, "Copy the binaries to your current directory.")
+	flag.StringVar(&envOpts.goos, "os", runtime.GOOS, "Target OS to fetch the binaries for.\nSupported options: linux, windows, darwin")
+	flag.BoolVar(&envOpts.allOS, "all", false, "Fetch binaries for all supported OSes. Overrides 'os' flag.")
+	flag.StringVar(&envOpts.output, "output", "", "Copy binaries to a specific folder instead of the current directory.")
 	flag.Parse()
 
-	curDir := getCurrentDir()
-
-	srcDir := filepath.Join(getSrcDir(isModule(curDir)), "SDK")
-
-	if copyAll {
-		if isVendor(curDir) {
-			if err := copySDK("", srcDir, filepath.Join(curDir, "vendor", "github.com", "maneac", "go-ultralight", "SDK")); err != nil {
-				return
-			}
-		}
-		copyBinaries("", srcDir, curDir)
-		return
+	envOpts.goos = strings.TrimSpace(strings.ToLower(envOpts.goos))
+	switch envOpts.goos {
+	case "linux", "darwin", "windows":
+	default:
+		log.Fatalf("Unsupported OS specified: %v", envOpts.goos)
 	}
 
-	if isVendor(curDir) {
-		if err := copySDK(goos, srcDir, filepath.Join(curDir, "vendor", "github.com", "maneac", "go-ultralight", "SDK")); err != nil {
-			return
-		}
+	u := utility{
+		flags: &envOpts,
 	}
-	copyBinaries(goos, srcDir, curDir)
+
+	// retrieves and configures the folders used by the utility
+	u.getDirectories()
+
+	// download and extract the SDK
+	if u.flags.download {
+		u.download()
+	}
+
+	// copy the binaries to the target project
+	if u.flags.copy {
+		u.install()
+	}
 }

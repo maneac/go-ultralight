@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/maneac/go-ultralight.svg?branch=master)](https://travis-ci.org/maneac/go-ultralight)
 [![codecov](https://codecov.io/gh/maneac/go-ultralight/branch/master/graph/badge.svg)](https://codecov.io/gh/maneac/go-ultralight)
 
+# Go-Ultralight
+
 ### Please read the installation instructions below
 
 Go-Ultralight provides unofficial bindings for the Ultralight UI library, endeavouring to match the original API as closely as possible. This project borrows heavily from the wonderful work of Raff found [here](https://github.com/raff/ultralight-go).
@@ -27,11 +29,11 @@ You must have a working CGo installation and have the GOPATH set.
 
 ## All Methods
 
-1. Run:<br/><br/> `go get github.com/maneac/go-ultralight/go-ultralight` <br/><br/>to download the project and the installation and setup utility.
+1. Run:<br/><br/> `go get -d github.com/maneac/go-ultralight/...` <br/><br/>to download the project and the installation and setup utility. Then, install the optional utility:<br/><br/> `go install github.com/maneac/go-ultralight/go-ultralight` <br/><br/>
 
-## Automated - Copying only
+## Automated
 
-2. Navigate to your project's directory and execute:<br/><br/>`go-ultralight [OPTIONS]`<br/><br/>to automatically download the Ultralight SDK, and copy the necessary binaries for running your application. For more information on the available options, please read the utility's help (`go-ultralight --help`).
+2. Navigate to your project's directory and execute:<br/><br/>`go-ultralight [OPTIONS]`<br/><br/>to automatically download the Ultralight SDK and copy the necessary binaries for running your application. For more information on the available options, please read the utility's help (`go-ultralight --help`).
 3. That's it! Now you're ready to Go-Ultralight!
 
 ## Manual
@@ -85,4 +87,4 @@ For examples, please see the 'examples' directory, which contains Go implementat
 
 
 
-Last updated: 16/05/2020
+Last updated: 17/05/2020
