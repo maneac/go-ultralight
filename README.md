@@ -82,9 +82,9 @@ For examples, please see the 'examples' directory, which contains Go implementat
 
 # To Do
 
+- Add support for inspector view
 - Implement the mouse and keyboard events
 - Write tests
-
 
 
 Last updated: 17/05/2020

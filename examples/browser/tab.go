@@ -66,5 +66,7 @@ func (t *tab) hide() {
 }
 
 func (t *tab) resize(width, height uint) {
+	t.containerHeight = height
+	t.containerWidth = width
 	t.overlay.Resize(width, height)
 }
