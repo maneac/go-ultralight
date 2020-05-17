@@ -90,46 +90,46 @@ const (
 	RGBA8
 )
 
-// // KeyEventType .
-// type KeyEventType int
+// KeyEventType enumerates the possible key events
+type KeyEventType int
 
-// // KeyEventTypes
-// const (
-// 	KeyDown KeyEventType = iota
-// 	KeyUp
-// 	RawKeyDown
-// 	Char
-// )
+// KeyEventTypes
+const (
+	KeyDown KeyEventType = iota
+	KeyUp
+	RawKeyDown
+	Char
+)
 
-// // MouseEventType .
-// type MouseEventType int
+// MouseEventType enumerates the possible mouse events
+type MouseEventType int
 
-// // MouseEventTypes
-// const (
-// 	MouseMoved MouseEventType = iota
-// 	MouseDown
-// 	MouseUp
-// )
+// MouseEventTypes
+const (
+	MouseMoved MouseEventType = iota
+	MouseDown
+	MouseUp
+)
 
-// // MouseButton .
-// type MouseButton int
+// MouseButton enumerates the possible mouse buttons
+type MouseButton int
 
-// // MouseButtons
-// const (
-// 	MouseButtonNone MouseButton = iota
-// 	Left
-// 	Middle
-// 	Right
-// )
+// MouseButtons
+const (
+	MouseButtonNone MouseButton = iota
+	Left
+	Middle
+	Right
+)
 
-// // ScrollEventType .
-// type ScrollEventType int
+// ScrollEventType enumerates the possible ways of scrolling
+type ScrollEventType int
 
-// // ScrollEventTypes
-// const (
-// 	ScrollByPixel ScrollEventType = iota
-// 	ScrollByPage
-// )
+// ScrollEventTypes
+const (
+	ScrollByPixel ScrollEventType = iota
+	ScrollByPage
+)
 
 // WindowFlag enumerates the window features in a bitwise-OR ('|') friendly manner
 type WindowFlag int

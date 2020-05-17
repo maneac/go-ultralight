@@ -120,6 +120,21 @@ func (view *View) Stop() {
 	C.ulViewStop(view.v)
 }
 
+// FireKeyEvent will fire the supplied keyboard event
+func (view *View) FireKeyEvent(event *KeyEvent) {
+	C.ulViewFireKeyEvent(view.v, event.ke)
+}
+
+// FireMouseEvent will fire the supplied mouse event
+func (view *View) FireMouseEvent(event *MouseEvent) {
+	C.ulViewFireMouseEvent(view.v, event.me)
+}
+
+// FireScrollEvent will fire the supplied scroll event
+func (view *View) FireScrollEvent(event *ScrollEvent) {
+	C.ulViewFireScrollEvent(view.v, event.se)
+}
+
 // NeedsPaint sets whether the View should be repainted during the next
 // call to Renderer.Render()
 func (view *View) NeedsPaint(needsPaint bool) {

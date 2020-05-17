@@ -90,3 +90,25 @@ func (conf *Config) UserStylesheet(css string) {
 	defer C.free(unsafe.Pointer(cCSS))
 	C.ulConfigSetUserStylesheet(conf.c, C.ulCreateString(cCSS))
 }
+
+// ForceRepaint sets whether the views should be continuously repainted or not. Mainly
+// used for diagnosis
+func (conf *Config) ForceRepaint(enabled bool) {
+	C.ulConfigSetForceRepaint(conf.c, C.bool(enabled))
+}
+
+// AnimationTimerDelay sets the amount of time to wait before repainting when a
+// CSS animation is active (Default = 1/60)
+func (conf *Config) AnimationTimerDelay(delay float64) {
+	C.ulConfigSetAnimationTimerDelay(conf.c, C.double(delay))
+}
+
+// MemoryCacheSize sets the size of the cache for assets in bytes (Default = 64MB)
+func (conf *Config) MemoryCacheSize(size uint) {
+	C.ulConfigSetMemoryCacheSize(conf.c, C.uint(size))
+}
+
+// PageCacheSize sets the number of pages to keep cached (Default = 0)
+func (conf *Config) PageCacheSize(size uint) {
+	C.ulConfigSetPageCacheSize(conf.c, C.uint(size))
+}
